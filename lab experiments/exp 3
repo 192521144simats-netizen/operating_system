@@ -1,0 +1,159 @@
+\#include <stdio.h>
+
+
+
+int main()
+
+{
+
+&#x20;   int A\[100]\[4];
+
+&#x20;   int i, j, n, total = 0, index, temp;
+
+&#x20;   float avg\_wt, avg\_tat;
+
+
+
+&#x20;   printf("Enter number of process: ");
+
+&#x20;   scanf("%d", \&n);
+
+
+
+&#x20;   printf("Enter Burst Time:\\n");
+
+
+
+&#x20;   for (i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       printf("P%d: ", i + 1);
+
+&#x20;       scanf("%d", \&A\[i]\[1]);
+
+&#x20;       A\[i]\[0] = i + 1;
+
+&#x20;   }
+
+
+
+&#x20;   // Sorting processes according to Burst Time (SJF)
+
+&#x20;   for (i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       index = i;
+
+
+
+&#x20;       for (j = i + 1; j < n; j++)
+
+&#x20;       {
+
+&#x20;           if (A\[j]\[1] < A\[index]\[1])
+
+&#x20;               index = j;
+
+&#x20;       }
+
+
+
+&#x20;       temp = A\[i]\[1];
+
+&#x20;       A\[i]\[1] = A\[index]\[1];
+
+&#x20;       A\[index]\[1] = temp;
+
+
+
+&#x20;       temp = A\[i]\[0];
+
+&#x20;       A\[i]\[0] = A\[index]\[0];
+
+&#x20;       A\[index]\[0] = temp;
+
+&#x20;   }
+
+
+
+&#x20;   // Calculating Waiting Time
+
+&#x20;   A\[0]\[2] = 0;
+
+
+
+&#x20;   for (i = 1; i < n; i++)
+
+&#x20;   {
+
+&#x20;       A\[i]\[2] = 0;
+
+
+
+&#x20;       for (j = 0; j < i; j++)
+
+&#x20;       {
+
+&#x20;           A\[i]\[2] += A\[j]\[1];
+
+&#x20;       }
+
+
+
+&#x20;       total += A\[i]\[2];
+
+&#x20;   }
+
+
+
+&#x20;   avg\_wt = (float)total / n;
+
+&#x20;   total = 0;
+
+
+
+&#x20;   printf("\\nP\\tBT\\tWT\\tTAT\\n");
+
+
+
+&#x20;   // Calculating Turnaround Time
+
+&#x20;   for (i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       A\[i]\[3] = A\[i]\[1] + A\[i]\[2];
+
+&#x20;       total += A\[i]\[3];
+
+
+
+&#x20;       printf("P%d\\t%d\\t%d\\t%d\\n",
+
+&#x20;              A\[i]\[0],
+
+&#x20;              A\[i]\[1],
+
+&#x20;              A\[i]\[2],
+
+&#x20;              A\[i]\[3]);
+
+&#x20;   }
+
+
+
+&#x20;   avg\_tat = (float)total / n;
+
+
+
+&#x20;   printf("\\nAverage Waiting Time = %.2f", avg\_wt);
+
+&#x20;   printf("\\nAverage Turnaround Time = %.2f\\n", avg\_tat);
+
+
+
+&#x20;   return 0;
+
+}
