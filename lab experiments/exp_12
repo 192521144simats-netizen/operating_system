@@ -1,0 +1,189 @@
+\#include <stdio.h>
+
+\#include <stdlib.h>
+
+\#include <pthread.h>
+
+\#include <unistd.h>
+
+
+
+\#define NUM\_PHILOSOPHERS 5
+
+
+
+pthread\_mutex\_t chopsticks\[NUM\_PHILOSOPHERS];
+
+
+
+void\* philosopherLifeCycle(void\* arg)
+
+{
+
+&#x20;   int id = \*((int\*)arg);
+
+&#x20;   int left\_chopstick = id;
+
+&#x20;   int right\_chopstick = (id + 1) % NUM\_PHILOSOPHERS;
+
+
+
+&#x20;   while (1)
+
+&#x20;   {
+
+&#x20;       // Think
+
+&#x20;       printf("Philosopher %d is thinking...\\n", id);
+
+
+
+&#x20;       // Pick up chopsticks
+
+&#x20;       pthread\_mutex\_lock(\&chopsticks\[left\_chopstick]);
+
+&#x20;       pthread\_mutex\_lock(\&chopsticks\[right\_chopstick]);
+
+
+
+&#x20;       // Eat
+
+&#x20;       printf("Philosopher %d is eating...\\n", id);
+
+&#x20;       sleep(rand() % 3 + 1);
+
+
+
+&#x20;       // Put down chopsticks
+
+&#x20;       pthread\_mutex\_unlock(\&chopsticks\[left\_chopstick]);
+
+&#x20;       pthread\_mutex\_unlock(\&chopsticks\[right\_chopstick]);
+
+&#x20;   }
+
+
+
+&#x20;   return NULL;
+
+}
+
+
+
+int main()
+
+{
+
+&#x20;   pthread\_t philosophers\[NUM\_PHILOSOPHERS];
+
+&#x20;   int philosopher\_ids\[NUM\_PHILOSOPHERS];
+
+
+
+&#x20;   // Initialize mutex locks
+
+&#x20;   for (int i = 0; i < NUM\_PHILOSOPHERS; i++)
+
+&#x20;   {
+
+&#x20;       pthread\_mutex\_init(\&chopsticks\[i], NULL);
+
+&#x20;   }
+
+
+
+&#x20;   // Create philosopher threads
+
+&#x20;   for (int i = 0; i < NUM\_PHILOSOPHERS; i++)
+
+&#x20;   {
+
+&#x20;       philosopher\_ids\[i] = i;
+
+
+
+&#x20;       pthread\_create(
+
+&#x20;           \&philosophers\[i],
+
+&#x20;           NULL,
+
+&#x20;           philosopherLifeCycle,
+
+&#x20;           (void\*)\&philosopher\_ids\[i]
+
+&#x20;       );
+
+&#x20;   }
+
+
+
+&#x20;   // Wait for threads to finish
+
+&#x20;   for (int i = 0; i < NUM\_PHILOSOPHERS; i++)
+
+&#x20;   {
+
+&#x20;       pthread\_join(philosophers\[i], NULL);
+
+&#x20;   }
+
+
+
+&#x20;   // Destroy mutex locks
+
+&#x20;   for (int i = 0; i < NUM\_PHILOSOPHERS; i++)
+
+&#x20;   {
+
+&#x20;       pthread\_mutex\_destroy(\&chopsticks\[i]);
+
+&#x20;   }
+
+
+
+&#x20;   return 0;
+
+}
+
+
+
+Pseudocode
+
+
+
+BEGIN
+
+
+
+Initialize 5 chopsticks.
+
+
+
+FOR each philosopher (0 to 4)
+
+&#x20;   Create a philosopher thread.
+
+END FOR
+
+
+
+REPEAT FOREVER
+
+&#x20;   Think.
+
+&#x20;   Pick up left and right chopsticks.
+
+&#x20;   Eat.
+
+&#x20;   Put down both chopsticks.
+
+END REPEAT
+
+
+
+Wait for all philosopher threads.
+
+
+
+END
