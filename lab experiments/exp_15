@@ -1,0 +1,79 @@
+\#include <stdio.h>
+
+\#include <stdlib.h>
+
+\#include <string.h>
+
+
+
+int main()
+
+{
+
+&#x20;   char mainDirectory\[] = "C:/Users/itssk/OneDrive/Desktop";
+
+&#x20;   char subDirectory\[] = "os";
+
+&#x20;   char fileName\[] = "example.txt";
+
+
+
+&#x20;   char filePath\[200];
+
+&#x20;   char mainDirPath\[200];
+
+
+
+&#x20;   snprintf(mainDirPath,
+
+&#x20;            sizeof(mainDirPath),
+
+&#x20;            "%s/%s/",
+
+&#x20;            mainDirectory,
+
+&#x20;            subDirectory);
+
+
+
+&#x20;   snprintf(filePath,
+
+&#x20;            sizeof(filePath),
+
+&#x20;            "%s%s",
+
+&#x20;            mainDirPath,
+
+&#x20;            fileName);
+
+
+
+&#x20;   FILE \*file = fopen(filePath, "w");
+
+
+
+&#x20;   if (file == NULL)
+
+&#x20;   {
+
+&#x20;       printf("Error creating file.\\n");
+
+&#x20;       return 1;
+
+&#x20;   }
+
+
+
+&#x20;   fprintf(file, "This is an example file content.");
+
+&#x20;   printf("File created successfully: %s\\n", filePath);
+
+
+
+&#x20;   fclose(file);
+
+
+
+&#x20;   return 0;
+
+}
