@@ -1,0 +1,214 @@
+#include <stdio.h>
+
+
+
+struct priority\_scheduling
+
+{
+
+&#x20;   char process\_name;
+
+&#x20;   int burst\_time;
+
+&#x20;   int waiting\_time;
+
+&#x20;   int turn\_around\_time;
+
+&#x20;   int priority;
+
+};
+
+
+
+int main()
+
+{
+
+&#x20;   int number\_of\_process;
+
+&#x20;   int total = 0;
+
+&#x20;   int ASCII\_number = 65;
+
+&#x20;   int position;
+
+
+
+&#x20;   float average\_waiting\_time;
+
+&#x20;   float average\_turnaround\_time;
+
+
+
+&#x20;   struct priority\_scheduling temp\_process;
+
+
+
+&#x20;   printf("Enter the total number of Processes: ");
+
+&#x20;   scanf("%d", \&number\_of\_process);
+
+
+
+&#x20;   struct priority\_scheduling process\[number\_of\_process];
+
+
+
+&#x20;   printf("\\nPlease Enter the Burst Time and Priority of each process:\\n");
+
+
+
+&#x20;   for (int i = 0; i < number\_of\_process; i++)
+
+&#x20;   {
+
+&#x20;       process\[i].process\_name = (char)ASCII\_number;
+
+
+
+&#x20;       printf("\\nEnter the details of the process %c\\n",
+
+&#x20;              process\[i].process\_name);
+
+
+
+&#x20;       printf("Enter the burst time: ");
+
+&#x20;       scanf("%d", \&process\[i].burst\_time);
+
+
+
+&#x20;       printf("Enter the priority: ");
+
+&#x20;       scanf("%d", \&process\[i].priority);
+
+
+
+&#x20;       ASCII\_number++;
+
+&#x20;   }
+
+
+
+&#x20;   // Sort processes according to priority (Higher priority first)
+
+&#x20;   for (int i = 0; i < number\_of\_process; i++)
+
+&#x20;   {
+
+&#x20;       position = i;
+
+
+
+&#x20;       for (int j = i + 1; j < number\_of\_process; j++)
+
+&#x20;       {
+
+&#x20;           if (process\[j].priority > process\[position].priority)
+
+&#x20;           {
+
+&#x20;               position = j;
+
+&#x20;           }
+
+&#x20;       }
+
+
+
+&#x20;       temp\_process = process\[i];
+
+&#x20;       process\[i] = process\[position];
+
+&#x20;       process\[position] = temp\_process;
+
+&#x20;   }
+
+
+
+&#x20;   process\[0].waiting\_time = 0;
+
+
+
+&#x20;   for (int i = 1; i < number\_of\_process; i++)
+
+&#x20;   {
+
+&#x20;       process\[i].waiting\_time = 0;
+
+
+
+&#x20;       for (int j = 0; j < i; j++)
+
+&#x20;       {
+
+&#x20;           process\[i].waiting\_time += process\[j].burst\_time;
+
+&#x20;       }
+
+
+
+&#x20;       total += process\[i].waiting\_time;
+
+&#x20;   }
+
+
+
+&#x20;   average\_waiting\_time = (float)total / (float)number\_of\_process;
+
+
+
+&#x20;   total = 0;
+
+
+
+&#x20;   printf("\\n\\nProcess\_name\\tBurst Time\\tWaiting Time\\tTurnaround Time\\n");
+
+&#x20;   printf("---------------------------------------------------------------\\n");
+
+
+
+&#x20;   for (int i = 0; i < number\_of\_process; i++)
+
+&#x20;   {
+
+&#x20;       process\[i].turn\_around\_time =
+
+&#x20;           process\[i].burst\_time + process\[i].waiting\_time;
+
+
+
+&#x20;       printf("%c\\t\\t%d\\t\\t%d\\t\\t%d\\n",
+
+&#x20;              process\[i].process\_name,
+
+&#x20;              process\[i].burst\_time,
+
+&#x20;              process\[i].waiting\_time,
+
+&#x20;              process\[i].turn\_around\_time);
+
+
+
+&#x20;       total += process\[i].turn\_around\_time;
+
+&#x20;   }
+
+
+
+&#x20;   average\_turnaround\_time = (float)total / (float)number\_of\_process;
+
+
+
+&#x20;   printf("\\nAverage Waiting Time    : %.2f", average\_waiting\_time);
+
+&#x20;   printf("\\nAverage Turnaround Time : %.2f\\n",
+
+&#x20;          average\_turnaround\_time);
+
+
+
+&#x20;   return 0;
+
+}
+
