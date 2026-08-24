@@ -1,0 +1,143 @@
+\#include <stdio.h>
+
+\#include <stdlib.h>
+
+\#include <fcntl.h>
+
+\#include <unistd.h>
+
+
+
+\#define BUFFER\_SIZE 4096
+
+
+
+void copy()
+
+{
+
+&#x20;   const char \*sourcefile =
+
+&#x20;       "C:/Users/itssk/OneDrive/Desktop/sasi.txt";
+
+&#x20;   const char \*destination\_file =
+
+&#x20;       "C:/Users/itssk/OneDrive/Desktop/sk.txt";
+
+
+
+&#x20;   int source\_fd = open(sourcefile, O\_RDONLY);
+
+&#x20;   int dest\_fd = open(destination\_file,
+
+&#x20;                      O\_WRONLY | O\_CREAT | O\_TRUNC,
+
+&#x20;                      0666);
+
+
+
+&#x20;   char buffer\[BUFFER\_SIZE];
+
+&#x20;   ssize\_t bytesRead, bytesWritten;
+
+
+
+&#x20;   while ((bytesRead = read(source\_fd, buffer, BUFFER\_SIZE)) > 0)
+
+&#x20;   {
+
+&#x20;       bytesWritten = write(dest\_fd, buffer, bytesRead);
+
+&#x20;   }
+
+
+
+&#x20;   close(source\_fd);
+
+&#x20;   close(dest\_fd);
+
+
+
+&#x20;   printf("File copied successfully.\\n");
+
+}
+
+
+
+void create()
+
+{
+
+&#x20;   FILE \*fp;
+
+
+
+&#x20;   fp = fopen("C:/Users/itssk/OneDrive/Desktop/sasi.txt", "w");
+
+&#x20;   printf("File created successfully.\\n");
+
+
+
+&#x20;   fclose(fp);
+
+}
+
+
+
+int main()
+
+{
+
+&#x20;   int n;
+
+
+
+&#x20;   printf("1. Create \\t2. Copy \\t3. Delete");
+
+&#x20;   printf("\\nEnter your choice: ");
+
+&#x20;   scanf("%d", \&n);
+
+
+
+&#x20;   switch (n)
+
+&#x20;   {
+
+&#x20;       case 1:
+
+&#x20;           create();
+
+&#x20;           break;
+
+
+
+&#x20;       case 2:
+
+&#x20;           copy();
+
+&#x20;           break;
+
+
+
+&#x20;       case 3:
+
+&#x20;           remove("C:/Users/itssk/OneDrive/Desktop/sasi.txt");
+
+&#x20;           printf("Deleted successfully.\\n");
+
+&#x20;           break;
+
+
+
+&#x20;       default:
+
+&#x20;           printf("Invalid choice.\\n");
+
+&#x20;   }
+
+
+
+&#x20;   return 0;
+
+}
