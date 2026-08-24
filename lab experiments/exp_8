@@ -1,0 +1,173 @@
+\#include <stdio.h>
+
+\#include <conio.h>
+
+
+
+int main()
+
+{
+
+&#x20;   int i, NOP;
+
+&#x20;   int sum = 0, count = 0, y, quant;
+
+&#x20;   int wt = 0, tat = 0;
+
+&#x20;   int at\[10], bt\[10], temp\[10];
+
+&#x20;   float avg\_wt, avg\_tat;
+
+
+
+&#x20;   printf("Total number of processes in the system: ");
+
+&#x20;   scanf("%d", \&NOP);
+
+
+
+&#x20;   y = NOP;
+
+
+
+&#x20;   for (i = 0; i < NOP; i++)
+
+&#x20;   {
+
+&#x20;       printf("\\nEnter the Arrival and Burst Time of Process\[%d]\\n", i + 1);
+
+
+
+&#x20;       printf("Arrival Time: ");
+
+&#x20;       scanf("%d", \&at\[i]);
+
+
+
+&#x20;       printf("Burst Time: ");
+
+&#x20;       scanf("%d", \&bt\[i]);
+
+
+
+&#x20;       temp\[i] = bt\[i];
+
+&#x20;   }
+
+
+
+&#x20;   printf("\\nEnter the Time Quantum: ");
+
+&#x20;   scanf("%d", \&quant);
+
+
+
+&#x20;   printf("\\nProcess No\\tBurst Time\\tTurnaround Time\\tWaiting Time\\n");
+
+
+
+&#x20;   for (sum = 0, i = 0; y != 0;)
+
+&#x20;   {
+
+&#x20;       if (temp\[i] <= quant \&\& temp\[i] > 0)
+
+&#x20;       {
+
+&#x20;           sum += temp\[i];
+
+&#x20;           temp\[i] = 0;
+
+&#x20;           count = 1;
+
+&#x20;       }
+
+&#x20;       else if (temp\[i] > 0)
+
+&#x20;       {
+
+&#x20;           temp\[i] -= quant;
+
+&#x20;           sum += quant;
+
+&#x20;       }
+
+
+
+&#x20;       if (temp\[i] == 0 \&\& count == 1)
+
+&#x20;       {
+
+&#x20;           y--;
+
+
+
+&#x20;           printf("Process\[%d]\\t%d\\t\\t%d\\t\\t%d\\n",
+
+&#x20;                  i + 1,
+
+&#x20;                  bt\[i],
+
+&#x20;                  sum - at\[i],
+
+&#x20;                  sum - at\[i] - bt\[i]);
+
+
+
+&#x20;           wt += sum - at\[i] - bt\[i];
+
+&#x20;           tat += sum - at\[i];
+
+
+
+&#x20;           count = 0;
+
+&#x20;       }
+
+
+
+&#x20;       if (i == NOP - 1)
+
+&#x20;       {
+
+&#x20;           i = 0;
+
+&#x20;       }
+
+&#x20;       else if (at\[i + 1] <= sum)
+
+&#x20;       {
+
+&#x20;           i++;
+
+&#x20;       }
+
+&#x20;       else
+
+&#x20;       {
+
+&#x20;           i = 0;
+
+&#x20;       }
+
+&#x20;   }
+
+
+
+&#x20;   avg\_wt = (float)wt / NOP;
+
+&#x20;   avg\_tat = (float)tat / NOP;
+
+
+
+&#x20;   printf("\\nAverage Turnaround Time: %f", avg\_tat);
+
+&#x20;   printf("\\nAverage Waiting Time: %f", avg\_wt);
+
+
+
+&#x20;   getch();
+
+&#x20;   return 0;
+
+}
