@@ -1,0 +1,55 @@
+\#include <stdio.h>
+
+\#include <pthread.h>
+
+
+
+void\* threadFunction(void\* arg)
+
+{
+
+&#x20;   char\* message = (char\*)arg;
+
+&#x20;   printf("%s\\n", message);
+
+
+
+&#x20;   return NULL;
+
+}
+
+
+
+int main()
+
+{
+
+&#x20;   pthread\_t thread1, thread2;
+
+
+
+&#x20;   char\* message1 = "Hello from Thread 1!";
+
+&#x20;   char\* message2 = "Hello from Thread 2!";
+
+
+
+&#x20;   // Create threads
+
+&#x20;   pthread\_create(\&thread1, NULL, threadFunction, (void\*)message1);
+
+&#x20;   pthread\_create(\&thread2, NULL, threadFunction, (void\*)message2);
+
+
+
+&#x20;   // Wait for threads to complete
+
+&#x20;   pthread\_join(thread1, NULL);
+
+&#x20;   pthread\_join(thread2, NULL);
+
+
+
+&#x20;   return 0;
+
+}
