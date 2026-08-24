@@ -1,0 +1,229 @@
+\#include <stdio.h>
+
+
+
+void bestfit(int mp\[], int p\[], int m, int n)
+
+{
+
+&#x20;   int j = 0;
+
+
+
+&#x20;   for (int i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       if (mp\[i] > p\[j])
+
+&#x20;       {
+
+&#x20;           printf("\\n%d fits in %d", p\[j], mp\[i]);
+
+&#x20;           mp\[i] = mp\[i] - p\[j++];
+
+&#x20;           i = i - 1;
+
+&#x20;       }
+
+&#x20;   }
+
+
+
+&#x20;   for (int i = j; i < m; i++)
+
+&#x20;   {
+
+&#x20;       printf("\\n%d must wait for its process", p\[i]);
+
+&#x20;   }
+
+}
+
+
+
+void rsort(int a\[], int n)
+
+{
+
+&#x20;   for (int i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       for (int j = 0; j < n; j++)
+
+&#x20;       {
+
+&#x20;           if (a\[i] > a\[j])
+
+&#x20;           {
+
+&#x20;               int t = a\[i];
+
+&#x20;               a\[i] = a\[j];
+
+&#x20;               a\[j] = t;
+
+&#x20;           }
+
+&#x20;       }
+
+&#x20;   }
+
+}
+
+
+
+void sort(int a\[], int n)
+
+{
+
+&#x20;   for (int i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       for (int j = 0; j < n; j++)
+
+&#x20;       {
+
+&#x20;           if (a\[i] < a\[j])
+
+&#x20;           {
+
+&#x20;               int t = a\[i];
+
+&#x20;               a\[i] = a\[j];
+
+&#x20;               a\[j] = t;
+
+&#x20;           }
+
+&#x20;       }
+
+&#x20;   }
+
+}
+
+
+
+void firstfit(int mp\[], int p\[], int m, int n)
+
+{
+
+&#x20;   sort(mp, n);
+
+&#x20;   sort(p, m);
+
+&#x20;   bestfit(mp, p, m, n);
+
+}
+
+
+
+void worstfit(int mp\[], int p\[], int m, int n)
+
+{
+
+&#x20;   rsort(mp, n);
+
+&#x20;   sort(p, m);
+
+&#x20;   bestfit(mp, p, m, n);
+
+}
+
+
+
+int main()
+
+{
+
+&#x20;   int m, n, mp\[20], p\[20], ch;
+
+
+
+&#x20;   printf("Number of memory partitions : ");
+
+&#x20;   scanf("%d", \&n);
+
+
+
+&#x20;   printf("Number of process : ");
+
+&#x20;   scanf("%d", \&m);
+
+
+
+&#x20;   printf("Enter the memory partitions:\\n");
+
+&#x20;   for (int i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       scanf("%d", \&mp\[i]);
+
+&#x20;   }
+
+
+
+&#x20;   printf("Enter process size:\\n");
+
+&#x20;   for (int i = 0; i < m; i++)
+
+&#x20;   {
+
+&#x20;       scanf("%d", \&p\[i]);
+
+&#x20;   }
+
+
+
+&#x20;   printf("1. First Fit\\t2. Best Fit\\t3. Worst Fit");
+
+&#x20;   printf("\\nEnter your choice : ");
+
+&#x20;   scanf("%d", \&ch);
+
+
+
+&#x20;   switch (ch)
+
+&#x20;   {
+
+&#x20;       case 1:
+
+&#x20;           bestfit(mp, p, m, n);
+
+&#x20;           break;
+
+
+
+&#x20;       case 2:
+
+&#x20;           firstfit(mp, p, m, n);
+
+&#x20;           break;
+
+
+
+&#x20;       case 3:
+
+&#x20;           worstfit(mp, p, m, n);
+
+&#x20;           break;
+
+
+
+&#x20;       default:
+
+&#x20;           printf("Invalid choice");
+
+&#x20;           break;
+
+&#x20;   }
+
+
+
+&#x20;   return 0;
+
+}
