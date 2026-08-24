@@ -1,0 +1,156 @@
+
+\#include <stdio.h>
+
+
+
+int main()
+
+{
+
+&#x20;   int bt\[20], p\[20], wt\[20], tat\[20];
+
+&#x20;   int i, j, n, total = 0, pos, temp;
+
+&#x20;   float avg\_wt, avg\_tat;
+
+
+
+&#x20;   printf("Enter number of process: ");
+
+&#x20;   scanf("%d", \&n);
+
+
+
+&#x20;   printf("\\nEnter Burst Time:\\n");
+
+
+
+&#x20;   for (i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       printf("P%d: ", i + 1);
+
+&#x20;       scanf("%d", \&bt\[i]);
+
+&#x20;       p\[i] = i + 1;
+
+&#x20;   }
+
+
+
+&#x20;   // Sort processes according to Burst Time (SJF)
+
+&#x20;   for (i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       pos = i;
+
+
+
+&#x20;       for (j = i + 1; j < n; j++)
+
+&#x20;       {
+
+&#x20;           if (bt\[j] < bt\[pos])
+
+&#x20;               pos = j;
+
+&#x20;       }
+
+
+
+&#x20;       temp = bt\[i];
+
+&#x20;       bt\[i] = bt\[pos];
+
+&#x20;       bt\[pos] = temp;
+
+
+
+&#x20;       temp = p\[i];
+
+&#x20;       p\[i] = p\[pos];
+
+&#x20;       p\[pos] = temp;
+
+&#x20;   }
+
+
+
+&#x20;   // Calculate Waiting Time
+
+&#x20;   wt\[0] = 0;
+
+
+
+&#x20;   for (i = 1; i < n; i++)
+
+&#x20;   {
+
+&#x20;       wt\[i] = 0;
+
+
+
+&#x20;       for (j = 0; j < i; j++)
+
+&#x20;       {
+
+&#x20;           wt\[i] += bt\[j];
+
+&#x20;       }
+
+
+
+&#x20;       total += wt\[i];
+
+&#x20;   }
+
+
+
+&#x20;   avg\_wt = (float)total / n;
+
+&#x20;   total = 0;
+
+
+
+&#x20;   printf("\\nProcess\\tBurst Time\\tWaiting Time\\tTurnaround Time\\n");
+
+
+
+&#x20;   // Calculate Turnaround Time
+
+&#x20;   for (i = 0; i < n; i++)
+
+&#x20;   {
+
+&#x20;       tat\[i] = bt\[i] + wt\[i];
+
+&#x20;       total += tat\[i];
+
+
+
+&#x20;       printf("P%d\\t%d\\t\\t%d\\t\\t%d\\n",
+
+&#x20;              p\[i], bt\[i], wt\[i], tat\[i]);
+
+&#x20;   }
+
+
+
+&#x20;   avg\_tat = (float)total / n;
+
+
+
+&#x20;   printf("\\nAverage Waiting Time = %.2f", avg\_wt);
+
+&#x20;   printf("\\nAverage Turnaround Time = %.2f\\n", avg\_tat);
+
+
+
+&#x20;   return 0;
+
+}
+
+
